@@ -335,8 +335,7 @@ class Avanza {
 	}
 
 	getAccounts(options) {
-		options = options || {onlyTradable:false};
-		return this.get('/_mobile/account/list', options);
+		return this.get('/_mobile/account/list', options || {onlyTradable:false});
 	}
 
 }
