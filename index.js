@@ -334,9 +334,9 @@ class Avanza {
 		return this.request('GET', path, {limit:limit, query:query});
 	}
 
-	getAccounts() {
-
-		return this.request('GET', '/_mobile/account/list?onlyTradable=false');
+	getAccounts(options) {
+		options = options || {onlyTradable:false};
+		return this.get('/_mobile/account/list', options);
 	}
 
 }
