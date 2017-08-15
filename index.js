@@ -319,19 +319,8 @@ class Avanza {
 
 	}
 
-	search(query, type, limit) {
-
-		if (limit == undefined)
-			limit = 10;
-
-		var path = '';
-
-		if (type)
-			path = sprintf('/_mobile/market/search/%s', type.toUpperCase());
-		else
-			path = sprintf('/_mobile/market/search');
-
-		return this.request('GET', path, {limit:limit, query:query});
+	search(options) {
+		return this.request('GET', '/_mobile/market/search', options || {limit:10});
 	}
 
 	getAccounts(options) {
