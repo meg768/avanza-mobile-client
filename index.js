@@ -319,6 +319,12 @@ class Avanza {
 
 	}
 
+	market = {
+		search(options) {
+			return this.request('GET', '/_mobile/market/search', options || {limit:10});
+		}
+
+	}
 	search(options) {
 		return this.request('GET', '/_mobile/market/search', options || {limit:10});
 	}
