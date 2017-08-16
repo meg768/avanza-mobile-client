@@ -189,51 +189,7 @@ class Avanza {
 		});
 	}
 
-/*
 
-	enableSubscriptions() {
-		var self = this;
-
-		if (self.socket != undefined)
-			return Promise.resolve(self.socket);
-
-		return new Promise(function(resolve, reject) {
-
-			try {
-				var socket = new AvanzaSocket(self.session.pushSubscriptionId);
-
-				socket.open().then(function() {
-					resolve(self.socket = socket);
-				})
-				.catch(function(error) {
-					socket.close();
-					reject(error);
-				});
-			}
-			catch(error) {
-				reject(error);
-			}
-		});
-	}
-
-	disableSubscriptions() {
-		var self = this;
-
-		if (self.socket != undefined) {
-			self.socket.close();
-			self.socket = undefined;
-		}
-	}
-
-	subscribe(channel, id, callback) {
-		var self = this;
-
-		if (self.socket == undefined)
-			throw new Error('Need to call enableSubscriptions() first.');
-
-		self.socket.subscribe(channel, id, callback);
-	}
-*/
 	request(method, path, query, body) {
 
 		var self = this;
@@ -314,6 +270,153 @@ class Avanza {
 			});
 
 		}
+
+
+		function loginWithBankID(ssid) {
+
+			function initialize() {
+
+				return new Promise(function(resolve, reject) {
+
+					if (!isString(ssid))
+						throw new Error('Must specify personal number');
+
+					var options = {
+						method: 'POST',
+						path: '/_api/authentication/sessions/bankid',
+						body: {identificationNumber:ssid}
+					};
+
+					self.gopher.request(options).then(function(response) {
+
+						try {
+							if (!response.body.transactionId)
+								throw new Error('No transactionID present in response.');
+
+							resolve({transactionId: response.body.transactionId});
+						}
+						catch (error) {
+							reject(error);
+						}
+
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+				});
+
+			}
+
+			function poll(session) {
+				return new Promise(function(resolve, reject) {
+
+					var options = {
+						method: 'GET',
+						path: sprintf('/_api/authentication/sessions/bankid/%s', session.transactionId)
+					};
+
+					self.gopher.request(options).then(function(response) {
+						try {
+
+							if (!response.body.transactionId)
+								throw new Error('No transactionID');
+
+							switch (response.body.state) {
+
+								case 'COMPLETE': {
+
+									resolve({
+										loginPath: response.body.logins[0].loginPath,
+										username: response.body.logins[0].username
+									});
+									break;
+								}
+
+								case 'OUTSTANDING_TRANSACTION':
+								case 'USER_SIGN': {
+
+									setTimeout(function() {
+										poll(session).then(function(response) {
+											resolve(response);
+										})
+										.catch(function(error) {
+											throw error;
+										});
+									}, 3000);
+
+									break;
+								}
+
+								default: {
+									throw new Error(sprintf('BankID returned code %s', response.body.state));
+								}
+							}
+
+						}
+						catch (error) {
+							reject(error);
+						}
+
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+				});
+
+			}
+
+
+			function finalize(session) {
+				return new Promise(function(resolve, reject) {
+
+					var options = {
+						method: 'GET',
+						path: sprintf('%s?maxInactiveMinutes=240', session.loginPath)
+					};
+
+					self.gopher.request(options).then(function(response) {
+
+						resolve({
+							authenticationSession: response.body.authenticationSession,
+							customerId: response.body.customerId,
+							username: session.username,
+							securityToken: response.headers['x-securitytoken'],
+							pushSubscriptionId: response.body.pushSubscriptionId
+						});
+
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+				});
+
+			}
+
+			return new Promise(function(resolve, reject) {
+
+				initialize(ssid).then(function(json) {
+					return poll(json);
+				})
+				.then(function(json) {
+					return finalize(json)
+				})
+				.then(function(session) {
+
+					self.session = session;
+
+					// Bind the subscription ID to the socket.open() method
+					self.socket.open = self.socket.open.bind(self.socket, self.session.pushSubscriptionId);
+
+					resolve(self.session);
+				})
+				.catch(function(error) {
+					reject(error);
+				});
+			});
+		};
+
+		if (isString(credentials.ssid))
+			return loginWithBankID(credentials.ssid);
 
 		return loginWithUserName(credentials.username, credentials.password);
 
