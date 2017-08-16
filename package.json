@@ -1,6 +1,6 @@
 {
   "name": "avanza-mobile-client",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Avanza Mobile Client",
   "main": "index.js",
   "scripts": {
