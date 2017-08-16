@@ -9,6 +9,7 @@ var extend      = require('yow/extend');
 var isArray     = require('yow/is').isArray;
 var isString    = require('yow/is').isString;
 var isObject    = require('yow/is').isObject;
+var isFunction  = require('yow/is').isObject;
 var Request     = require('yow/request');
 
 const BASE_URL   = 'www.avanza.se';
@@ -32,7 +33,6 @@ class AvanzaSocket extends EventEmitter {
 	}
 
 	send(message) {
-		console.log('Sending:', message);
 		this._socket.send(JSON.stringify([message]));
 	};
 
@@ -40,8 +40,8 @@ class AvanzaSocket extends EventEmitter {
 		var self = this;
 		var socket = new WebSocket(SOCKET_URL);
 
+
 		function send(message) {
-			console.log('Sending:', message);
 			socket.send(JSON.stringify([message]));
 		};
 
@@ -63,8 +63,6 @@ class AvanzaSocket extends EventEmitter {
 
 			if (isArray(response))
 				response = response[0];
-
-			//console.log('Response:', response);
 
 			switch(response.channel) {
 				case '/meta/handshake': {
@@ -100,7 +98,11 @@ class AvanzaSocket extends EventEmitter {
 				}
 
 				default: {
-					self.emit(response.channel, response.data);
+					var parts = response.channel.split('/');
+
+					if (parts.length == 3)
+						self.emit(parts[1], response.data);
+
 					break;
 				}
 
@@ -142,7 +144,7 @@ class AvanzaSocket extends EventEmitter {
 		this._clientId = undefined;
 	}
 
-	subscribe(channel, id, callback) {
+	subscribe(channel, id) {
 
 		var self = this;
 
@@ -156,10 +158,6 @@ class AvanzaSocket extends EventEmitter {
 			id = id.join(',');
 
 		var subscription = sprintf('/%s/%s', channel, id);
-
-		self.on(subscription, function(data) {
-			callback(data);
-		});
 
 		self.send({
 			channel        : '/meta/subscribe',
@@ -301,7 +299,7 @@ class Avanza {
 							pushSubscriptionId    : response.body.pushSubscriptionId
 						};
 
-						self.socket.open = self.socket.open.bind(self.socket, self.session.pushSubscriptionId);
+						self.socket.open = self.socket.open.bind(self.socket, session.pushSubscriptionId);
 
 						resolve(self.session = session);
 					})
@@ -322,7 +320,7 @@ class Avanza {
 	}
 
 	search(options) {
-		return this.request('GET', '/_mobile/market/search', options || {limit:10});
+		return this.get('/_mobile/market/search', options || {limit:10});
 	}
 
 	getAccounts(options) {
