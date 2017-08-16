@@ -1,7 +1,6 @@
 
 var WebSocket    = require('ws');
 var EventEmitter = require('events');
-var querystring  = require('querystring');
 var Path         = require('path');
 
 var sprintf     = require('yow/sprintf');
@@ -220,13 +219,14 @@ class Avanza {
 		return this.request('GET', path, query);
 	}
 
+	post(path, query, body) {
+		return this.request('POST', path, query, body);
+	}
+
 	login(credentials) {
 
 		var self = this;
 
-		if (credentials == undefined) {
-			credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
-		}
 
 		function loginWithUserName(username, password) {
 			return new Promise(function(resolve, reject) {
@@ -414,6 +414,10 @@ class Avanza {
 				});
 			});
 		};
+
+		if (credentials == undefined) {
+			credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
+		}
 
 		if (isString(credentials.ssid))
 			return loginWithBankID(credentials.ssid);
