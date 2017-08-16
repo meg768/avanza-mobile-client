@@ -36,7 +36,7 @@ class AvanzaSocket extends EventEmitter {
 		this._socket.send(JSON.stringify([message]));
 	};
 
-	open() {
+	open(subscriptionId) {
 		var self = this;
 		var socket = new WebSocket(SOCKET_URL);
 
@@ -47,7 +47,7 @@ class AvanzaSocket extends EventEmitter {
 
 		socket.on('open', function() {
 			send({
-				ext                      : {subscriptionId:self._subscriptionId},
+				ext                      : {subscriptionId:subscriptionId},
 				supportedConnectionTypes : ['websocket', 'long-polling', 'callback-polling'],
 				channel                  : '/meta/handshake',
 				id                       : self._id++,
@@ -180,7 +180,7 @@ class Avanza {
 
 	constructor() {
 		this.session = {};
-		this.socket  = undefined;
+		this.socket  = new AvanzaSocket();
 
 		this.gopher = new Request('https://www.avanza.se', {
 			headers  : {
@@ -191,7 +191,7 @@ class Avanza {
 		});
 	}
 
-
+/*
 
 	enableSubscriptions() {
 		var self = this;
@@ -235,7 +235,7 @@ class Avanza {
 
 		self.socket.subscribe(channel, id, callback);
 	}
-
+*/
 	request(method, path, query, body) {
 
 		var self = this;
@@ -300,6 +300,8 @@ class Avanza {
 							securityToken         : response.headers['x-securitytoken'],
 							pushSubscriptionId    : response.body.pushSubscriptionId
 						};
+
+						self.socket.open = self.socket.open.bind(self.socket, self.session.pushSubscriptionId);
 
 						resolve(self.session = session);
 					})
