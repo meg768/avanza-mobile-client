@@ -8,8 +8,12 @@ Avanza Mobile Client
 
 ### Usage
 
+````javascript
+
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
+
+````
 
 ### Methods
 
@@ -62,28 +66,28 @@ function login() {
 
 ````javascript
 
-	function loginWithBankID() {
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
+function loginWithBankID() {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
 
-		avanza.login({ssid:'XXXXXX-XXXX'}).then(function(reply) {
-			console.log('reply:', JSON.stringify(reply, null, '  '));
+	avanza.login({ssid:'XXXXXX-XXXX'}).then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
 
-			/*
-			reply: {
-			  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-			  "customerId": "123456",
-			  "username": "user123",
-			  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-			  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
-			}
-			*/
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
+		/*
+		reply: {
+		  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		  "customerId": "123456",
+		  "username": "user123",
+		  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+		}
+		*/
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
 
-	}
+}
 
 
 ````
