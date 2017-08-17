@@ -38,3 +38,33 @@ Avanza Mobile Client
     .catch(function(error) {
         console.log(error);
     });
+
+#### Get Accounts
+
+	function getAccounts() {
+
+		var Avanza = require('avanza-mobile-client');
+		var avanza = new Avanza();
+
+		avanza.login().then(function() {
+			return avanza.get('/_mobile/account/list', {onlyTradable:false});
+		})
+		.then(function(reply) {
+			console.log(reply);
+
+			/*
+			var reply = [{
+				totalBalance: 12345.67,
+				ownCapital: 12345.67,
+				buyingPower: 12345.67,
+				name: 'Depå',
+				id: '1234567',
+				type: 'AktieFondkonto'
+			}];
+			*/
+
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
+	}
