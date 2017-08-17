@@ -14,7 +14,7 @@ Avanza Mobile Client
 ### Methods
 
 
-- **login(credentials)**       - Log in using the specified credentials.
+- **login(credentials)**       - Log in using the specified credentials. See examples below.
 - **get(path, query)**         - Sends a GET request to Avanza with the specified query string/object.
 - **post(path, query, body)**  - Sends a POST request to Avanza with the specified query string/object and JSON body.
 
@@ -27,7 +27,7 @@ Avanza Mobile Client
 
 No real documentation is currently available, only some examples of how to use the module.
 
-#### Login
+#### Login with username/password
 
 	function login() {
 		var Avanza = require('avanza-mobile-client');
@@ -36,6 +36,31 @@ No real documentation is currently available, only some examples of how to use t
 		var credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
 
 		avanza.login(credentials).then(function(reply) {
+			console.log('reply:', JSON.stringify(reply, null, '  '));
+
+			/*
+			reply: {
+			  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+			  "customerId": "123456",
+			  "username": "user123",
+			  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+			  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+			}
+			*/
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
+
+	}
+
+#### Login with Swedish BankID
+
+	function loginWithBankID() {
+		var Avanza = require('avanza-mobile-client');
+		var avanza = new Avanza();
+
+		avanza.login({ssid:'XXXXXX-XXXX'}).then(function(reply) {
 			console.log('reply:', JSON.stringify(reply, null, '  '));
 
 			/*
