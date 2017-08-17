@@ -37,6 +37,66 @@ No real documentation is currently available, only some examples of how to use t
 
 	}
 
+#### Get Overview
+
+	function getOverview() {
+		var Avanza = require('avanza-mobile-client');
+		var avanza = new Avanza();
+
+		// If login() is called without parameters,
+		// process.env.AVANZA_USERNAME and process.env.AVANZA_PASSWORD
+		// are used as credentials...
+
+		avanza.login().then(function() {
+			return avanza.get('/_mobile/account/overview');
+		})
+		.then(function(reply) {
+			console.log('reply:', JSON.stringify(reply, null, '  '));
+
+			/*
+			reply: {
+			  "accounts": [
+				{
+				  "accountType": "AktieFondkonto",
+				  "interestRate": 0,
+				  "depositable": true,
+				  "active": true,
+				  "performancePercent": 12345.67,
+				  "totalProfit": 12345.67,
+				  "attorney": false,
+				  "accountId": "12345",
+				  "tradable": true,
+				  "totalBalance": 12345.67,
+				  "accountPartlyOwned": false,
+				  "totalBalanceDue": 0,
+				  "ownCapital": 12345.67,
+				  "buyingPower": 12345.67,
+				  "totalProfitPercent": 12345.67,
+				  "performance": 12345.67,
+				  "name": "Depå"
+				}
+			  ],
+			  "numberOfOrders": 0,
+			  "numberOfDeals": 0,
+			  "totalBuyingPower": 12345.67,
+			  "totalOwnCapital": 12345.67,
+			  "totalPerformancePercent": 12.34,
+			  "totalPerformance": 12345.67,
+			  "numberOfTransfers": 0,
+			  "numberOfIntradayTransfers": 0,
+			  "totalBalance": 12345.67
+			}
+
+			*/
+
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
+	}
+
+
+
 
 #### Subscribe
 
@@ -98,61 +158,6 @@ No real documentation is currently available, only some examples of how to use t
 			console.log(error);
 		});
 	}
-
-#### Get Overview
-
-	function getOverview() {
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
-
-		avanza.login().then(function() {
-			return avanza.get('/_mobile/account/overview');
-		})
-		.then(function(reply) {
-			console.log('reply:', JSON.stringify(reply, null, '  '));
-
-			/*
-			reply: {
-			  "accounts": [
-				{
-				  "accountType": "AktieFondkonto",
-				  "interestRate": 0,
-				  "depositable": true,
-				  "active": true,
-				  "performancePercent": 12345.67,
-				  "totalProfit": 12345.67,
-				  "attorney": false,
-				  "accountId": "12345",
-				  "tradable": true,
-				  "totalBalance": 12345.67,
-				  "accountPartlyOwned": false,
-				  "totalBalanceDue": 0,
-				  "ownCapital": 12345.67,
-				  "buyingPower": 12345.67,
-				  "totalProfitPercent": 12345.67,
-				  "performance": 12345.67,
-				  "name": "Depå"
-				}
-			  ],
-			  "numberOfOrders": 0,
-			  "numberOfDeals": 0,
-			  "totalBuyingPower": 12345.67,
-			  "totalOwnCapital": 12345.67,
-			  "totalPerformancePercent": 12.34,
-			  "totalPerformance": 12345.67,
-			  "numberOfTransfers": 0,
-			  "numberOfIntradayTransfers": 0,
-			  "totalBalance": 12345.67
-			}
-
-			*/
-
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-	}
-
 
 #### Search
 
