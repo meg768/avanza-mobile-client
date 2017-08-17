@@ -8,7 +8,7 @@ Avanza Mobile Client
 
 ### Usage
 
-	Sorry, no real documentation is currently available. Only examples of how to use the module.
+No real documentation is currently available, only some examples of how to use the module.
 
 #### Login
 
