@@ -8,36 +8,35 @@ Avanza Mobile Client
 
 ### Usage
 
-    var avanza = new Avanza();
-    var credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
+	Sorry, no real documentation is currently available. Only examples of how to use the module.
 
-    avanza.login(credentials).then(function() {
-        return avanza.get('/_mobile/account/overview');
-    })
-    .then(function(reply) {
-        console.log(reply);
+#### Login
 
-        return avanza.socket.open();
-    })
-    .then(function() {
-        // Subscribe to OMX index
-        avanza.socket.subscribe('quotes', '19002');
+	function login() {
+		var Avanza = require('avanza-mobile-client');
+		var avanza = new Avanza();
 
-        avanza.socket.on('quotes', function(data) {
-            var time = new Date(data.updated);
-            console.log(time.toLocaleTimeString(), data.orderbookId, data.lastPrice);
-        });
+		var credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
 
-        return new Promise(function(resolve, reject) {
-            setTimeout(resolve, 10000);
-        });
-    })
-    .then(function() {
-        avanza.socket.close();
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
+		avanza.login(credentials).then(function(reply) {
+			console.log('reply:', JSON.stringify(reply, null, '  '));
+
+			/*
+			reply: {
+			  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+			  "customerId": "123456",
+			  "username": "user123",
+			  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+			  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+			}
+			*/
+		})
+		.catch(function(error) {
+			console.log(error);
+		});
+
+	}
+
 
 #### Subscribe
 
