@@ -318,3 +318,52 @@ function getWatchLists() {
 
 }
 ````
+
+#### Market Index Values
+
+````javascript
+function getMarketIndex(id = '19002') {
+
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
+
+	avanza.login().then(function() {
+		return avanza.get('/_mobile/market/index/' + id);
+	})
+	.then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
+
+		/*
+		reply: {
+		  "priceThreeMonthsAgo": 1628.37,
+		  "priceOneWeekAgo": 1554.75,
+		  "priceOneMonthAgo": 1639.33,
+		  "priceSixMonthsAgo": 1570.59,
+		  "priceAtStartOfYear": 1517.2,
+		  "priceOneYearAgo": 1392.05,
+		  "priceThreeYearsAgo": 1352.98,
+		  "priceFiveYearsAgo": 1091.46,
+		  "numberOfPriceAlerts": 0,
+		  "pushPermitted": true,
+		  "currency": "SEK",
+		  "description": "Index över de trettio mest omsatta aktierna på Stockholmsbörsen.",
+		  "flagCode": "SE",
+		  "quoteUpdated": "2017-08-17T17:30:11.349+0200",
+		  "title": "OMX Stockholm 30 - Stockholmsbörsen",
+		  "highestPrice": 1552.5,
+		  "lowestPrice": 1538.72,
+		  "lastPrice": 1540.09,
+		  "lastPriceUpdated": "2017-08-17T17:30:11.349+0200",
+		  "change": -12.07,
+		  "changePercent": -0.78,
+		  "name": "OMX Stockholm 30",
+		  "id": "19002"
+		}
+		*/
+
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+}
+````
