@@ -147,77 +147,74 @@ function getOverview() {
 ````
 
 
-````javascript
-#!/usr/bin/env node
-const argv = require('yargs').argv
-
-if (argv.ships > 3 && argv.distance < 53.5) {
-  console.log('Plunder more riffiwobbles!')
-} else {
-  console.log('Retreat from the xupptumblers!')
-}
-````
-
 #### Subscribe
 
-	function subscribe(id = '19002' /* Swedish OMX Index */) {
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
+````javascript
 
-		avanza.login().then(function() {
-			return avanza.socket.open();
-		})
-		.then(function() {
-			avanza.socket.subscribe('quotes', id);
+function subscribe(id = '19002' /* Swedish OMX Index */) {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
 
-			avanza.socket.on('quotes', function(data) {
-				var time = new Date(data.updated);
-				console.log(time.toLocaleTimeString(), data.orderbookId, data.lastPrice);
-			});
+	avanza.login().then(function() {
+		return avanza.socket.open();
+	})
+	.then(function() {
+		avanza.socket.subscribe('quotes', id);
 
-			return new Promise(function(resolve, reject) {
-				setTimeout(resolve, 10000);
-			});
-		})
-		.then(function() {
-			avanza.socket.close();
-		})
-		.catch(function(error) {
-			console.log(error);
+		avanza.socket.on('quotes', function(data) {
+			var time = new Date(data.updated);
+			console.log(time.toLocaleTimeString(), data.orderbookId, data.lastPrice);
 		});
-	}
+
+		return new Promise(function(resolve, reject) {
+			setTimeout(resolve, 10000);
+		});
+	})
+	.then(function() {
+		avanza.socket.close();
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+}
+
+````javascript
 
 #### Get Accounts
 
-	function getAccounts() {
+````javascript
 
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
+function getAccounts() {
 
-		avanza.login().then(function() {
-			return avanza.get('/_mobile/account/list', {onlyTradable:false});
-		})
-		.then(function(reply) {
-			console.log('reply:', JSON.stringify(reply, null, '  '));
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
 
-			/*
-			reply: [
-			  {
-				"totalBalance": 12345.67,
-				"ownCapital": 12345.67,
-				"buyingPower": 12345.67,
-				"name": "Depå",
-				"id": "1234567",
-				"type": "AktieFondkonto"
-			  }
-			]
-			*/
+	avanza.login().then(function() {
+		return avanza.get('/_mobile/account/list', {onlyTradable:false});
+	})
+	.then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
 
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-	}
+		/*
+		reply: [
+		  {
+			"totalBalance": 12345.67,
+			"ownCapital": 12345.67,
+			"buyingPower": 12345.67,
+			"name": "Depå",
+			"id": "1234567",
+			"type": "AktieFondkonto"
+		  }
+		]
+		*/
+
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+}
+
+````
 
 #### Search
 
