@@ -85,7 +85,7 @@ No real documentation is currently available, only some examples of how to use t
 
 #### Get Overview
 
-	````javascript
+````javascript
 
 	function getOverview() {
 		var Avanza = require('avanza-mobile-client');
@@ -143,7 +143,8 @@ No real documentation is currently available, only some examples of how to use t
 		});
 	}
 
-	````
+
+````
 
 
 ````javascript
