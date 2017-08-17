@@ -8,6 +8,23 @@ Avanza Mobile Client
 
 ### Usage
 
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
+
+### Methods
+
+
+- **login(credentials)**       - Log in using the specified credentials.
+- **get(path, query)**         - Sends a GET request to Avanza with the specified query string/object.
+- **post(path, query, body)**  - Sends a POST request to Avanza with the specified query string/object and JSON body.
+
+### Properies
+
+- **socket**  - Websocket to subscribe to quotes etc. See below.
+- **session** - Session properties required for communication with Avanza.
+
+### Examples
+
 No real documentation is currently available, only some examples of how to use the module.
 
 #### Login
