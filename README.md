@@ -40,7 +40,7 @@ No real documentation is currently available, only some examples of how to use t
 
 #### Subscribe
 
-	function subscribe(id = '19002') {
+	function subscribe(id = '19002' /* Swedish OMX Index */) {
 		var Avanza = require('avanza-mobile-client');
 		var avanza = new Avanza();
 
