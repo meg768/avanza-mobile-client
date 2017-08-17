@@ -29,34 +29,38 @@ No real documentation is currently available, only some examples of how to use t
 
 #### Login with username/password
 
-	function login() {
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
+````javascript
 
-		var credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
+function login() {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
 
-		avanza.login(credentials).then(function(reply) {
-			console.log('reply:', JSON.stringify(reply, null, '  '));
+	var credentials = {username: process.env.AVANZA_USERNAME, password:process.env.AVANZA_PASSWORD};
 
-			/*
-			reply: {
-			  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-			  "customerId": "123456",
-			  "username": "user123",
-			  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-			  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
-			}
-			*/
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
+	avanza.login(credentials).then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
 
-	}
+		/*
+		reply: {
+		  "authenticationSession": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		  "customerId": "123456",
+		  "username": "user123",
+		  "securityToken": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+		  "pushSubscriptionId": "XXXXXXXXXXXXXXXXXXXXXXXXX"
+		}
+		*/
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+
+}
+
+````
 
 #### Login with Swedish BankID
 
-``javascript
+````javascript
 
 	function loginWithBankID() {
 		var Avanza = require('avanza-mobile-client');
@@ -81,7 +85,8 @@ No real documentation is currently available, only some examples of how to use t
 
 	}
 
-``
+
+````
 
 #### Get Overview
 
@@ -178,7 +183,7 @@ function subscribe(id = '19002' /* Swedish OMX Index */) {
 	});
 }
 
-````javascript
+````
 
 #### Get Accounts
 
@@ -218,43 +223,47 @@ function getAccounts() {
 
 #### Search
 
-	function search(query = 'Mauritz') {
-		var Avanza = require('avanza-mobile-client');
-		var avanza = new Avanza();
+````javascript
 
-		avanza.login().then(function() {
-			return avanza.get('/_mobile/market/search', {limit:10, query:query});
-		})
-		.then(function(reply) {
-			console.log('reply:', JSON.stringify(reply, null, '  '));
+function search(query = 'Mauritz') {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
 
-			/*
-			reply: {
-			  "totalNumberOfHits": 1,
-			  "hits": [
+	avanza.login().then(function() {
+		return avanza.get('/_mobile/market/search', {limit:10, query:query});
+	})
+	.then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
+
+		/*
+		reply: {
+		  "totalNumberOfHits": 1,
+		  "hits": [
+			{
+			  "instrumentType": "STOCK",
+			  "numberOfHits": 1,
+			  "topHits": [
 				{
-				  "instrumentType": "STOCK",
-				  "numberOfHits": 1,
-				  "topHits": [
-					{
-					  "currency": "SEK",
-					  "lastPrice": 211.8,
-					  "changePercent": -1.3,
-					  "flagCode": "SE",
-					  "tradable": true,
-					  "tickerSymbol": "HM B",
-					  "name": "Hennes & Mauritz B",
-					  "id": "5364"
-					}
-				  ]
+				  "currency": "SEK",
+				  "lastPrice": 211.8,
+				  "changePercent": -1.3,
+				  "flagCode": "SE",
+				  "tradable": true,
+				  "tickerSymbol": "HM B",
+				  "name": "Hennes & Mauritz B",
+				  "id": "5364"
 				}
 			  ]
 			}
-			*/
+		  ]
+		}
+		*/
 
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
 
-	}
+}
+
+````
