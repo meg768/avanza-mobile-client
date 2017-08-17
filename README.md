@@ -26,6 +26,7 @@ var avanza = new Avanza();
 - **socket**  - Websocket to subscribe to quotes etc. See below.
 - **session** - Session properties required for communication with Avanza.
 
+
 ### Examples
 
 No real documentation is currently available, only some examples of how to use the module.
@@ -367,3 +368,106 @@ function getMarketIndex(id = '19002') {
 	});
 }
 ````
+
+#### Order Information
+
+````javascript
+function getOrder(accountId = 'your-account-id', orderbookId = '5364') {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
+
+	avanza.login().then(function() {
+		return avanza.get('/_mobile/order', {accountId:accountId, orderbookId:orderbookId});
+	})
+	.then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
+
+		/*
+		reply: {
+		  "customer": {
+			"showCourtageClassInfoOnOrderPage": false,
+			"courtageClass": "XXXX"
+		  },
+		  "account": {
+			"type": "AktieFondkonto",
+			"totalBalance": 12345.67,
+			"buyingPower": 12345.67,
+			"name": "Depå",
+			"id": "1234567"
+		  },
+		  "orderbook": {
+			"lastPrice": 211.8,
+			"lastPriceUpdated": "2017-08-17T17:29:32.000+0200",
+			"change": -2.8,
+			"changePercent": -1.3,
+			"totalVolumeTraded": 3551786,
+			"totalValueTraded": 754374744.9,
+			"exchangeRate": 1,
+			"currency": "SEK",
+			"positionVolume": 0,
+			"flagCode": "SE",
+			"tradable": true,
+			"tickerSymbol": "HM B",
+			"tradingUnit": 1,
+			"volumeFactor": 1,
+			"name": "Hennes & Mauritz B",
+			"id": "5364",
+			"type": "STOCK"
+		  },
+		  "firstTradableDate": "2017-08-18",
+		  "lastTradableDate": "2017-11-15",
+		  "untradableDates": [],
+		  "orderDepthLevels": [],
+		  "orderDepthReceivedTime": "2017-08-17T17:29:32.395+0200",
+		  "latestTrades": [
+			{
+			  "cancelled": false,
+			  "buyer": "AVA",
+			  "matchedOnMarket": true,
+			  "price": 211.8,
+			  "volume": 500,
+			  "dealTime": "2017-08-17T17:29:32.000+0200"
+			},
+			{
+			  "cancelled": false,
+			  "buyer": "AVA",
+			  "matchedOnMarket": true,
+			  "price": 211.8,
+			  "volume": 200,
+			  "dealTime": "2017-08-17T17:29:32.000+0200"
+			},
+			{
+			  "cancelled": false,
+			  "buyer": "NON",
+			  "seller": "SWB",
+			  "matchedOnMarket": true,
+			  "price": 211.8,
+			  "volume": 173,
+			  "dealTime": "2017-08-17T17:24:45.000+0200"
+			}
+		  ],
+		  "marketTrades": true,
+		  "hasShortSellKnowledge": true,
+		  "hasInstrumentKnowledge": true,
+		  "tickSizeRules": [
+			{
+			  "minPrice": 0,
+			  "maxPrice": 0.4999,
+			  "tickSize": 0.0001
+			},
+			{
+			  "minPrice": 0.5,
+			  "maxPrice": 0.9995,
+			  "tickSize": 0.0005
+			}
+		  ]
+		}
+		*/
+
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+
+}
+````javascript
