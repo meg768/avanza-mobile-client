@@ -11,10 +11,8 @@ npm install avanza-mobile-client --save
 ### Usage
 
 ````javascript
-
 var Avanza = require('avanza-mobile-client');
 var avanza = new Avanza();
-
 ````
 
 ### Methods
