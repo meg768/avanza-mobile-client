@@ -56,6 +56,8 @@ No real documentation is currently available, only some examples of how to use t
 
 #### Login with Swedish BankID
 
+````javascript
+
 	function loginWithBankID() {
 		var Avanza = require('avanza-mobile-client');
 		var avanza = new Avanza();
@@ -78,6 +80,8 @@ No real documentation is currently available, only some examples of how to use t
 		});
 
 	}
+
+````
 
 #### Get Overview
 
