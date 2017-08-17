@@ -255,3 +255,66 @@ function search(query = 'Mauritz') {
 
 }
 ````
+
+#### Watch lists
+
+````javascript
+function getWatchLists() {
+	var Avanza = require('avanza-mobile-client');
+	var avanza = new Avanza();
+
+	avanza.login().then(function() {
+		return avanza.get('/_mobile/usercontent/watchlist');
+	})
+	.then(function(reply) {
+		console.log('reply:', JSON.stringify(reply, null, '  '));
+
+		/*
+		reply: [
+		  {
+			"orderbooks": [
+			  "455636"
+			],
+			"editable": true,
+			"name": "Aktier",
+			"id": "XXXXXX"
+		  },
+		  {
+			"orderbooks": [
+			  "1933",
+			  "157699"
+			],
+			"editable": true,
+			"name": "Fonder",
+			"id": "XXXXXX"
+		  },
+		  {
+			"orderbooks": [
+			  "19002",
+			  "18984",
+			  "18997",
+			  "155541"
+			],
+			"editable": true,
+			"name": "Index",
+			"id": "XXXXXX"
+		  },
+		  {
+			"orderbooks": [
+			  "18998",
+			  "19000"
+			],
+			"editable": true,
+			"name": "Valutor",
+			"id": "XXXXXX"
+		  }
+		]
+		*/
+
+	})
+	.catch(function(error) {
+		console.log(error);
+	});
+
+}
+````
