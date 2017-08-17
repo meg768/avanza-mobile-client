@@ -19,7 +19,6 @@ var avanza = new Avanza();
 
 ### Methods
 
-
 - **login(credentials)**       - Log in using the specified credentials. See examples below.
 - **get(path, query)**         - Sends a GET request to Avanza with the specified query string/object.
 - **post(path, query, body)**  - Sends a POST request to Avanza with the specified query string/object and JSON body.
@@ -36,7 +35,6 @@ No real documentation is currently available, only some examples of how to use t
 #### Login with username/password
 
 ````javascript
-
 function login() {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
@@ -61,13 +59,11 @@ function login() {
 	});
 
 }
-
 ````
 
 #### Login with Swedish BankID
 
 ````javascript
-
 function loginWithBankID() {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
@@ -90,14 +86,11 @@ function loginWithBankID() {
 	});
 
 }
-
-
 ````
 
 #### Get Overview
 
 ````javascript
-
 function getOverview() {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
@@ -153,15 +146,11 @@ function getOverview() {
 		console.log(error);
 	});
 }
-
-
 ````
-
 
 #### Subscribe
 
 ````javascript
-
 function subscribe(id = '19002' /* Swedish OMX Index */) {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
@@ -188,13 +177,11 @@ function subscribe(id = '19002' /* Swedish OMX Index */) {
 		console.log(error);
 	});
 }
-
 ````
 
 #### Get Accounts
 
 ````javascript
-
 function getAccounts() {
 
 	var Avanza = require('avanza-mobile-client');
@@ -224,13 +211,11 @@ function getAccounts() {
 		console.log(error);
 	});
 }
-
 ````
 
 #### Search
 
 ````javascript
-
 function search(query = 'Mauritz') {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
@@ -271,5 +256,4 @@ function search(query = 'Mauritz') {
 	});
 
 }
-
 ````
