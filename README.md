@@ -187,7 +187,10 @@ function getAccounts() {
 	var avanza = new Avanza();
 
 	avanza.login().then(function() {
-		return avanza.get('/_mobile/account/list', {onlyTradable:false});
+		return avanza.get({
+			path: '/_mobile/account/list',
+			query: {onlyTradable:false}
+		});
 	})
 	.then(function(reply) {
 		console.log('reply:', JSON.stringify(reply, null, '  '));
@@ -215,12 +218,15 @@ function getAccounts() {
 #### Search
 
 ````javascript
-function search(query = 'Mauritz') {
+function search(text = 'Mauritz') {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
 
 	avanza.login().then(function() {
-		return avanza.get('/_mobile/market/search', {limit:10, query:query});
+		return avanza.get({
+			path: '/_mobile/market/search',
+			query: {limit:10, query:text}
+		});
 	})
 	.then(function(reply) {
 		console.log('reply:', JSON.stringify(reply, null, '  '));
@@ -329,7 +335,10 @@ function getMarketIndex(id = '19002') {
 	var avanza = new Avanza();
 
 	avanza.login().then(function() {
-		return avanza.get('/_mobile/market/index/' + id);
+		return avanza.get({
+			path: '/_mobile/market/index/:id',
+			params: {id:id}
+		});
 	})
 	.then(function(reply) {
 		console.log('reply:', JSON.stringify(reply, null, '  '));
@@ -377,7 +386,10 @@ function getOrder(accountId = 'your-account-id', orderbookId = '5364') {
 	var avanza = new Avanza();
 
 	avanza.login().then(function() {
-		return avanza.get('/_mobile/order', {accountId:accountId, orderbookId:orderbookId});
+		return avanza.get({
+			path: '/_mobile/order',
+			query: {accountId:accountId, orderbookId:orderbookId}
+		});
 	})
 	.then(function(reply) {
 		console.log('reply:', JSON.stringify(reply, null, '  '));
@@ -470,4 +482,5 @@ function getOrder(accountId = 'your-account-id', orderbookId = '5364') {
 	});
 
 }
+
 ````
