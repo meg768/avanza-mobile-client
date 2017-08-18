@@ -188,23 +188,53 @@ class Avanza {
 		});
 	}
 
+	get() {
+		return this.request.apply(this, ['GET', ...arguments]);
+	}
 
-	request(method, path, query, body) {
+	put() {
+		return this.request.apply(this, ['PUT', ...arguments]);
+	}
+
+	post() {
+		return this.request.apply(this, ['POST', ...arguments]);
+	}
+
+	delete() {
+		return this.request.apply(this, ['DELETE', ...arguments]);
+	}
+
+	request() {
 
 		var self = this;
 
-		return new Promise(function(resolve, reject) {
+		var options = {
+			headers  : {
+				'X-AuthenticationSession' : self.session.authenticationSession,
+				'X-SecurityToken'         : self.session.securityToken
+			}
+		};
 
-			var options = {
-				method   : method,
-				path     : path,
-				body     : body,
-				query    : query,
-				headers  : {
-					'X-AuthenticationSession' : self.session.authenticationSession,
-					'X-SecurityToken'         : self.session.securityToken
-				}
-			};
+		if (isString(arguments[0])) {
+			if (isString(arguments[1])) {
+				options.method = arguments[0];
+				options.path   = arguments[1];
+
+				extend(options, arguments[2]);
+			}
+			else {
+				options.method = arguments[0];
+				extend(options, arguments[1]);
+			}
+		}
+		else if (isObject(arguments[0])) {
+			options = arguments[0];
+		}
+		else {
+			return Promise.reject('Missing options.');
+		}
+
+		return new Promise(function(resolve, reject) {
 
 			self.gopher.request(options).then(function(response) {
 				resolve(response.body);
