@@ -17,9 +17,10 @@ var avanza = new Avanza();
 
 ### Methods
 
-- **login(credentials)**       - Log in using the specified credentials. See examples below.
-- **get(path, query)**         - Sends a GET request to Avanza with the specified query string/object.
-- **post(path, query, body)**  - Sends a POST request to Avanza with the specified query string/object and JSON body.
+- **login(credentials)**                  - Log in using the specified credentials. See examples below.
+- **request({method}, {path}, options)**  - Makes a request Avanza with the specified options.
+- **get(options)**                        - Same as **request('GET', options)**
+- **post(options)**                       - Same as **request('POST', options)**
 
 ### Properies
 
