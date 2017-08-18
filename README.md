@@ -151,7 +151,7 @@ function getOverview() {
 #### Subscribe
 
 ````javascript
-function subscribe(id = '19002' /* Swedish OMX Index */) {
+function subscribe(id = '19002') {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
 
@@ -162,8 +162,31 @@ function subscribe(id = '19002' /* Swedish OMX Index */) {
 		avanza.socket.subscribe('quotes', id);
 
 		avanza.socket.on('quotes', function(data) {
-			var time = new Date(data.updated);
-			console.log(time.toLocaleTimeString(), data.orderbookId, data.lastPrice);
+			console.log('data:', JSON.stringify(data, null, '  '));
+
+			/*
+			data: {
+			  "orderbookId": "19002",
+			  "buyPrice": null,
+			  "sellPrice": null,
+			  "spread": null,
+			  "closingPrice": 1540.09,
+			  "highestPrice": 1540.09,
+			  "lowestPrice": 1525.46,
+			  "lastPrice": 1525.72,
+			  "change": -14.37,
+			  "changePercent": -0.93,
+			  "lastUpdated": 1503039639349,
+			  "volumeWeightedAveragePrice": null,
+			  "totalVolumeTraded": 0,
+			  "totalValueTraded": 0,
+			  "changePercentNumber": -0.93,
+			  "scale": null,
+			  "updated": 1503039639349,
+			  "updatedDisplay": "09:00"
+			}
+			*/
+
 		});
 
 		return new Promise(function(resolve, reject) {
