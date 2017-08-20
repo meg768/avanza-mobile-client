@@ -151,55 +151,56 @@ function getOverview() {
 #### Subscribe
 
 ````javascript
-function subscribe(id = '19002') {
+function subscribe(id = '5364' /* Hennes & Mauritz */) {
 	var Avanza = require('avanza-mobile-client');
 	var avanza = new Avanza();
 
-	avanza.login().then(function() {
-		return avanza.socket.open();
-	})
-	.then(function() {
-		avanza.socket.subscribe('quotes', id);
+    avanza.login().then(function() {
+        return avanza.socket.open();
+    })
+    .then(function() {
+        avanza.socket.subscribe('quotes', id);
 
-		avanza.socket.on('quotes', function(data) {
+        avanza.socket.on('quotes', function(data) {
 			console.log('data:', JSON.stringify(data, null, '  '));
 
 			/*
 			data: {
-			  "orderbookId": "19002",
-			  "buyPrice": null,
-			  "sellPrice": null,
-			  "spread": null,
-			  "closingPrice": 1540.09,
-			  "highestPrice": 1540.09,
-			  "lowestPrice": 1525.46,
-			  "lastPrice": 1525.72,
-			  "change": -14.37,
-			  "changePercent": -0.93,
-			  "lastUpdated": 1503039639349,
-			  "volumeWeightedAveragePrice": null,
-			  "totalVolumeTraded": 0,
-			  "totalValueTraded": 0,
-			  "changePercentNumber": -0.93,
+			  "orderbookId": "5364",
+			  "buyPrice": 210.6,
+			  "sellPrice": 210.7,
+			  "spread": 0.05,
+			  "closingPrice": 211.8,
+			  "highestPrice": 211,
+			  "lowestPrice": 209.4,
+			  "lastPrice": 210.6,
+			  "change": -1.2,
+			  "changePercent": -0.57,
+			  "lastUpdated": 1503041571000,
+			  "volumeWeightedAveragePrice": 210.14,
+			  "totalVolumeTraded": 548045,
+			  "totalValueTraded": 115163497.9,
+			  "changePercentNumber": -0.57,
 			  "scale": null,
-			  "updated": 1503039639349,
-			  "updatedDisplay": "09:00"
+			  "updated": 1503041571000,
+			  "updatedDisplay": "09:32"
 			}
 			*/
 
-		});
+        });
 
-		return new Promise(function(resolve, reject) {
-			setTimeout(resolve, 10000);
-		});
-	})
-	.then(function() {
-		avanza.socket.close();
-	})
-	.catch(function(error) {
-		console.log(error);
-	});
+        return new Promise(function(resolve, reject) {
+            setTimeout(resolve, 60000);
+        });
+    })
+    .then(function() {
+        avanza.socket.close();
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
 }
+
 ````
 
 #### Get Accounts
