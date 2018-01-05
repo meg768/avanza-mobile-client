@@ -182,7 +182,6 @@ class Avanza {
 		this.session = {};
 		this.socket  = new AvanzaSocket();
 
-        console.log('*****************************')
 		this.gopher = new Request(BASE_URL, {
 			headers  : {
 				'Accept'         : '*/*',
