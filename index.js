@@ -1,19 +1,22 @@
 
+// module.exports = require('avanza-mobile-client');
+
+
+
 var WebSocket    = require('ws');
 var EventEmitter = require('events');
 var Path         = require('path');
 
-var sprintf     = require('yow/sprintf');
-var extend      = require('yow/extend');
-var isArray     = require('yow/is').isArray;
-var isString    = require('yow/is').isString;
-var isObject    = require('yow/is').isObject;
-var isFunction  = require('yow/is').isObject;
-var Request     = require('yow/request');
+var sprintf      = require('yow/sprintf');
+var extend       = require('yow/extend');
+var isArray      = require('yow/is').isArray;
+var isString     = require('yow/is').isString;
+var isObject     = require('yow/is').isObject;
+var isFunction   = require('yow/is').isObject;
+var Request      = require('yow/request');
 
-const BASE_URL   = 'www.avanza.se';
+const BASE_URL   = 'https://www.avanza.se';
 const SOCKET_URL = 'wss://www.avanza.se/_push/cometd';
-const USER_AGENT = 'Avanza/se.avanzabank.androidapplikation (3.8.0 (541); Android 6.0.1)';
 
 
 
@@ -179,11 +182,12 @@ class Avanza {
 		this.session = {};
 		this.socket  = new AvanzaSocket();
 
-		this.gopher = new Request('https://www.avanza.se', {
+        console.log('*****************************')
+		this.gopher = new Request(BASE_URL, {
 			headers  : {
 				'Accept'         : '*/*',
 				'Content-Type'   : 'application/json',
-				'User-Agent'     : USER_AGENT
+				'User-Agent'     : 'Avanza/se.avanzabank.androidapplikation (3.17.1 (578); Android 5.1.1)'
 			}
 		});
 	}
@@ -456,13 +460,6 @@ class Avanza {
 
 	}
 
-	search(options) {
-		return this.get('/_mobile/market/search', options || {limit:10});
-	}
-
-	getAccounts(options) {
-		return this.get('/_mobile/account/list', options || {onlyTradable:false});
-	}
 
 }
 
